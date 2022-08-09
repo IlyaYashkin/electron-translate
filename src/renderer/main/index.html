@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Typescript Electron APP</title>
+  </head>
+  <body>
+    <script src="index.js" type="module"></script>
+    <header id="titlebar"></header>
+    <div id="container">
+      <div id="settings-block">
+        <div>Fast translate: Alt+X</div>
+        <label class="checkbox"
+          >Write result to clipboard
+          <input type="checkbox" id="clipboard-checkbox" />
+          <span class="checkmark"></span>
+        </label>
+        <label class="checkbox"
+          >Enable notifications
+          <input type="checkbox" id="notifications-checkbox" />
+          <span class="checkmark"></span>
+        </label>
+        <label class="checkbox"
+          >Enable HTTP/HTTPS proxy
+          <input type="checkbox" id="proxy-checkbox" />
+          <span class="checkmark"></span>
+        </label>
+        <input id="proxy-field" />
+        <button id="save-button">Save configuration</button>
+      </div>
+      <div id="translate-settings-block">
+        <select id="engine">
+          <option value="bing">bing</option>
+          <option value="argos">argos</option>
+          <option value="deepl">deepl</option>
+          <option value="google">google (shit quality)</option>
+          <option value="baidu">baidu</option>
+          <option value="caiyun">caiyun</option>
+          <option value="iciba">iciba</option>
+          <option value="iflytek">iflytek</option>
+          <option value="tencent">tencent</option>
+          <option value="translateCom">translateCom</option>
+          <option value="utibet">utibet</option>
+          <option value="youdao">youdao</option>
+          <option value="reverso">reverso (auto unsupported)</option>
+          <option value="itranslate">itranslate (special language map)</option>
+          <option value="lingvanex">lingvanex (special language map)</option>
+          <option value="mglip">mglip (special language map)</option>
+          <option value="alibaba">alibaba (doesn't work)</option>
+          <option value="niutrans">niutrans (doesn't work)</option>
+          <option value="papago">papago (doesn't work)</option>
+          <option value="sogou">sogou (doesn't work)</option>
+          <option value="yandex">yandex (doesn't work)</option>
+        </select>
+        <div id="language-block">
+          <input
+            class="select-language"
+            id="from"
+            list="character"
+            value="auto"
+          />
+          <input class="select-language" id="to" list="character" value="en" />
+        </div>
+      </div>
+
+      <div id="input-output-block">
+        <textarea
+          id="input-text"
+          placeholder="Type some text"
+          spellcheck="false"
+        ></textarea>
+        <button id="translate-button">TRANSLATE</button>
+        <textarea
+          id="output-text"
+          placeholder="Translated text or error"
+          spellcheck="false"
+          readonly
+        ></textarea>
+      </div>
+    </div>
+
+    <datalist id="character">
+      <option value="auto">auto</option>
+      <option value="en">english</option>
+      <option value="zh">chinese</option>
+      <option value="ar">arabic</option>
+      <option value="ru">russian</option>
+      <option value="fr">french</option>
+      <option value="de">german</option>
+      <option value="es">spanish</option>
+      <option value="pt">portuguese</option>
+      <option value="it">italian</option>
+      <option value="ja">japanese</option>
+      <option value="ko">korean</option>
+      <option value="el">greek</option>
+      <option value="nl">dutch</option>
+      <option value="hi">hindi</option>
+      <option value="tr">turkish</option>
+      <option value="ms">malay</option>
+      <option value="th">thai</option>
+      <option value="vi">vietnamese</option>
+      <option value="id">indonesian</option>
+      <option value="he">hebrew</option>
+      <option value="pl">polish</option>
+      <option value="mn">mongolian</option>
+      <option value="cs">czech</option>
+      <option value="hu">hungarian</option>
+      <option value="et">estonian</option>
+      <option value="bg">bulgarian</option>
+      <option value="da">danish</option>
+      <option value="fi">finnish</option>
+      <option value="ro">romanian</option>
+      <option value="sv">swedish</option>
+      <option value="sl">slovenian</option>
+      <option value="fa">persian/farsi</option>
+      <option value="bs">bosnian</option>
+      <option value="sr">serbian</option>
+      <option value="fj">fijian</option>
+      <option value="tl">filipino</option>
+      <option value="ht">haitiancreole</option>
+      <option value="ca">catalan</option>
+      <option value="hr">croatian</option>
+      <option value="lv">latvian</option>
+      <option value="lt">lithuanian</option>
+      <option value="ur">urdu</option>
+      <option value="uk">ukrainian</option>
+      <option value="cy">welsh</option>
+      <option value="ty">tahiti</option>
+      <option value="to">tongan</option>
+      <option value="sw">swahili</option>
+      <option value="sm">samoan</option>
+      <option value="sk">slovak</option>
+      <option value="af">afrikaans</option>
+      <option value="no">norwegian</option>
+      <option value="bn">bengali</option>
+      <option value="mg">malagasy</option>
+      <option value="mt">maltese</option>
+      <option value="otq">queretaro otomi</option>
+      <option value="tlh">klingon/tlhingan hol</option>
+      <option value="gu">gujarati</option>
+      <option value="ta">tamil</option>
+      <option value="te">telugu</option>
+      <option value="pa">punjabi</option>
+      <option value="am">amharic</option>
+      <option value="az">azerbaijani</option>
+      <option value="ba">bashkir</option>
+      <option value="be">belarusian</option>
+      <option value="ceb">cebuano</option>
+      <option value="cv">chuvash</option>
+      <option value="eo">esperanto</option>
+      <option value="eu">basque</option>
+      <option value="ga">irish</option>
+      <option value="emj">emoji</option>
+    </datalist>
+  </body>
+</html>

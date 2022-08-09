@@ -1,0 +1,25 @@
+* {
+  background-color: #0d1117;
+  border-color: #41b2ff;
+  color: #41b2ff;
+  font-family: monospace;
+  font-size: 40vh;
+  outline: none;
+}
+
+body {
+  display: flex;
+  padding: 0;
+}
+
+input {
+  padding-left: 20vh;
+  padding-right: 20vh;
+  flex: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  border: 0;
+}

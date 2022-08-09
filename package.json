@@ -1,0 +1,20 @@
+{
+  "name": "electron-translate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "nodemon --watch . --exec \"electron .\""
+  },
+  "author": "IlyaYashkin",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^19.0.9",
+    "robotjs": "^0.6.0",
+    "uiohook-napi": "^1.2.0"
+  },
+  "devDependencies": {
+    "electron-rebuild": "^3.2.9"
+  }
+}

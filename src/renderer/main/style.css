@@ -1,0 +1,169 @@
+* {
+  background-color: #1a222e;
+  color: #41b2ff;
+  font-family: monospace;
+  font-size: 20px;
+  outline: none;
+  border-color: #30363d;
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0d1117;
+}
+::-webkit-scrollbar-thumb {
+  background: #41b2ff;
+}
+
+select,
+input,
+textarea,
+button {
+  background-color: #0d1117;
+}
+
+textarea {
+  resize: none;
+  height: 100%;
+  border: none;
+  padding: 10px;
+}
+
+textarea:last-child {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.checkbox {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin-left: 10px;
+}
+
+/* Hide the browser's default checkbox */
+.checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #010409;
+  border-top: solid 3px #30363d;
+  border-left: solid 3px #30363d;
+  border-bottom: solid 3px #000000;
+  border-right: solid 3px #000000;
+}
+
+/* On mouse-over, add a grey background color */
+/* .container:hover input ~ .checkmark {
+  background-color: #ccc;
+} */
+
+/* When the checkbox is checked, add a blue background */
+.checkbox input:checked ~ .checkmark {
+  border-bottom: solid 3px #30363d;
+  border-right: solid 3px #30363d;
+  border-top: solid 3px #000000;
+  border-left: solid 3px #000000;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid #41b2ff;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.select-language {
+  width: 100%;
+}
+
+#titlebar {
+  position: relative;
+  background-color: #30363d;
+  height: 35px;
+  -webkit-app-region: drag; /* Allow user to drag the window using this titlebar */
+  -webkit-user-select: none; /* Prevent user from selecting things */
+  user-select: none;
+}
+
+#container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+#settings-block {
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+#settings-block > * {
+  margin: 10px;
+}
+
+#translate-settings-block {
+  display: flex;
+  flex-direction: column;
+}
+
+#language-block {
+  display: flex;
+}
+
+#input-output-block {
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  border: solid 1px #30363d;
+}
+
+#translate-button {
+  height: 10vh;
+}
