@@ -1,4 +1,4 @@
-Compile python CLI translator
+Create python CLI translator .exe file
 
 pyinstaller --onefile --distpath ./ .\translators\translator.py
 
