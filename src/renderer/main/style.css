@@ -118,7 +118,14 @@ textarea:last-child {
 }
 
 .select-language {
-  width: 100%;
+  width: 50%;
+}
+
+.set-shortcut-button-pressed {
+  border-bottom: solid 2px #30363d;
+  border-right: solid 2px #30363d;
+  border-top: solid 2px #000000;
+  border-left: solid 2px #000000;
 }
 
 #titlebar {
@@ -146,6 +153,10 @@ textarea:last-child {
 
 #settings-block > * {
   margin: 10px;
+}
+
+#set-shortcut-button {
+  width: 400px;
 }
 
 #translate-settings-block {

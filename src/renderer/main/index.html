@@ -12,7 +12,10 @@
     <header id="titlebar"></header>
     <div id="container">
       <div id="settings-block">
-        <div>Fast translate: Alt+X</div>
+        <div>
+          Fast translate:
+          <button id="set-shortcut-button">...</button>
+        </div>
         <label class="checkbox"
           >Write result to clipboard
           <input type="checkbox" id="clipboard-checkbox" />
@@ -62,6 +65,7 @@
             list="character"
             value="auto"
           />
+          <button id="swap-button">⇄</button>
           <input class="select-language" id="to" list="character" value="en" />
         </div>
       </div>

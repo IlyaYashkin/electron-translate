@@ -27,6 +27,12 @@ let proxies = {
   http: "",
   https: "",
 };
+let inputFieldShortcut = {
+  ctrl: false,
+  shift: false,
+  alt: true,
+  key: "X",
+};
 
 (() => {
   try {
@@ -37,8 +43,8 @@ let proxies = {
     isWriteToClipboardEnabled = params.isWriteToClipboardEnabled;
     isNotificationsEnabled = params.isNotificationsEnabled;
     isProxyEnabled = params.isProxyEnabled;
-    proxies.http = params.proxies.http;
-    proxies.https = params.proxies.https;
+    proxies = params.proxies;
+    inputFieldShortcut = params.inputFieldShortcut;
   } catch (e) {}
 })();
 
@@ -47,14 +53,62 @@ let inputFieldWindow;
 let tray;
 let openInputFieldPressed = false;
 let textIsTranslating = false;
+let setInputFieldShortcut = false;
 
 const isNotificationsSupported = Notification.isSupported();
 
-// Глобальные шорткаты из доп. библы (работают в лоле)
 uIOhook.on("keydown", (e) => {
+  if (setInputFieldShortcut) {
+    switch (e.keycode) {
+      case UiohookKey.Ctrl:
+      case UiohookKey.Alt:
+      case UiohookKey.Shift:
+      case UiohookKey.Meta:
+      case UiohookKey.CtrlRight:
+      case UiohookKey.AltRight:
+      case UiohookKey.ShiftRight:
+      case UiohookKey.MetaRight:
+      case UiohookKey.Backspace:
+      case UiohookKey.Enter:
+      case 3653:
+      case 70:
+      case 3639:
+      case 3677:
+        return;
+    }
+
+    const key = Object.keys(UiohookKey).filter((key) => {
+      return UiohookKey[key] === e.keycode;
+    })[0];
+
+    if (key === "Escape") {
+      mainWindow.webContents.send(
+        "setting-input-field-shortcut",
+        inputFieldShortcut
+      );
+      setInputFieldShortcut = false;
+      return;
+    }
+
+    inputFieldShortcut = {
+      ctrl: e.ctrlKey,
+      shift: e.shiftKey,
+      alt: e.altKey,
+      key: key,
+    };
+
+    mainWindow.webContents.send(
+      "setting-input-field-shortcut",
+      inputFieldShortcut
+    );
+    setInputFieldShortcut = false;
+    return;
+  }
   if (
-    e.keycode === UiohookKey.X &&
-    e.altKey === true &&
+    e.keycode === UiohookKey[inputFieldShortcut.key] &&
+    e.ctrlKey === inputFieldShortcut.ctrl &&
+    e.shiftKey === inputFieldShortcut.shift &&
+    e.altKey === inputFieldShortcut.alt &&
     !openInputFieldPressed
   ) {
     openInputFieldPressed = true;
@@ -62,7 +116,12 @@ uIOhook.on("keydown", (e) => {
   }
 });
 uIOhook.on("keyup", (e) => {
-  if (e.keycode === UiohookKey.X || e.altKey === false) {
+  if (
+    e.keycode === UiohookKey[inputFieldShortcut.key] ||
+    e.ctrlKey !== inputFieldShortcut.ctrl ||
+    e.shiftKey !== inputFieldShortcut.shift ||
+    e.altKey !== inputFieldShortcut.alt
+  ) {
     openInputFieldPressed = false;
   }
 });
@@ -88,17 +147,6 @@ translator.on("translate-error", (err) => {
   }).show();
 });
 
-ipcMain.once("get-params", () => {
-  mainWindow.webContents.send("params", {
-    translationEngine,
-    fromLanguage,
-    toLanguage,
-    isWriteToClipboardEnabled,
-    isNotificationsEnabled,
-    isProxyEnabled,
-    proxies,
-  });
-});
 ipcMain.on("set-params", (_evt, params) => {
   translationEngine = params.engine;
   fromLanguage = params.from;
@@ -107,16 +155,24 @@ ipcMain.on("set-params", (_evt, params) => {
 ipcMain.on("save-params", () => {
   fs.writeFileSync(
     "config.json",
-    JSON.stringify({
-      translationEngine,
-      fromLanguage,
-      toLanguage,
-      isWriteToClipboardEnabled,
-      isNotificationsEnabled,
-      isProxyEnabled,
-      proxies,
-    })
+    JSON.stringify(
+      {
+        translationEngine,
+        fromLanguage,
+        toLanguage,
+        isWriteToClipboardEnabled,
+        isNotificationsEnabled,
+        isProxyEnabled,
+        proxies,
+        inputFieldShortcut,
+      },
+      null,
+      2
+    )
   );
+});
+ipcMain.on("set-input-field-shortcut", () => {
+  setInputFieldShortcut = true;
 });
 ipcMain.on("enable-clipboard", (_evt, bool) => {
   isWriteToClipboardEnabled = bool;
@@ -172,6 +228,16 @@ function createWindow() {
   mainWindow.loadFile(path.join(__dirname, "/renderer/main/index.html"));
   mainWindow.on("ready-to-show", () => {
     mainWindow.show();
+    mainWindow.webContents.send("params", {
+      translationEngine,
+      fromLanguage,
+      toLanguage,
+      isWriteToClipboardEnabled,
+      isNotificationsEnabled,
+      isProxyEnabled,
+      proxies,
+      inputFieldShortcut,
+    });
   });
 
   mainWindow.on("close", (event) => {

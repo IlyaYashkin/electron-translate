@@ -1,1 +1,18 @@
-{"translationEngine":"translateCom","fromLanguage":"ru","toLanguage":"ko","isWriteToClipboardEnabled":true,"isNotificationsEnabled":true,"isProxyEnabled":false,"proxies":{"http":"http://localhost:1080","https":"http://localhost:1080"}}
+{
+  "translationEngine": "baidu",
+  "fromLanguage": "en",
+  "toLanguage": "ru",
+  "isWriteToClipboardEnabled": true,
+  "isNotificationsEnabled": true,
+  "isProxyEnabled": false,
+  "proxies": {
+    "http": "http://localhost:1080",
+    "https": "http://localhost:1080"
+  },
+  "inputFieldShortcut": {
+    "ctrl": false,
+    "shift": false,
+    "alt": true,
+    "key": "X"
+  }
+}

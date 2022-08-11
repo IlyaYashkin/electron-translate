@@ -4,11 +4,22 @@ const toLanguage = document.getElementById("to");
 const inputText = document.getElementById("input-text");
 const outputText = document.getElementById("output-text");
 const translateButton = document.getElementById("translate-button");
+const shortcutButton = document.getElementById("set-shortcut-button");
 const clipboardCheckbox = document.getElementById("clipboard-checkbox");
 const notificationsCheckbox = document.getElementById("notifications-checkbox");
 const proxyCheckbox = document.getElementById("proxy-checkbox");
 const proxyField = document.getElementById("proxy-field");
 const saveButton = document.getElementById("save-button");
+const swapButton = document.getElementById("swap-button");
+
+const setParams = () => {
+  console.log(1);
+  window.api.send("set-params", {
+    engine: selectEngine.value,
+    from: fromLanguage.value,
+    to: toLanguage.value,
+  });
+};
 
 window.api.receiveOnce("params", (params) => {
   selectEngine.value = params.translationEngine;
@@ -18,6 +29,11 @@ window.api.receiveOnce("params", (params) => {
   notificationsCheckbox.checked = params.isNotificationsEnabled;
   proxyCheckbox.checked = params.isProxyEnabled;
   proxyField.value = params.proxies.http;
+  shortcutButton.innerText = `${
+    params.inputFieldShortcut.ctrl ? "CTRL + " : ""
+  }${params.inputFieldShortcut.shift ? "SHIFT + " : ""}${
+    params.inputFieldShortcut.alt ? "ALT + " : ""
+  }${params.inputFieldShortcut.key}`;
 
   switch (proxyCheckbox.checked) {
     case true:
@@ -31,8 +47,6 @@ window.api.receiveOnce("params", (params) => {
   }
 });
 
-window.api.send("get-params");
-
 window.api.receive("translated-text", (string) => {
   translateButton.innerText = "TRANSLATE";
   outputText.value = string;
@@ -41,6 +55,26 @@ window.api.receive("translated-text", (string) => {
 window.api.receive("text-is-translating", () => {
   translateButton.innerText = "TRANSLATING...";
 });
+
+window.api.receive("setting-input-field-shortcut", (shortcut) => {
+  shortcutButton.innerText = `${shortcut.ctrl ? "CTRL + " : ""}${
+    shortcut.shift ? "SHIFT + " : ""
+  }${shortcut.alt ? "ALT + " : ""}${shortcut.key}`;
+  shortcutButton.classList.remove("set-shortcut-button-pressed");
+});
+
+shortcutButton.onclick = (e) => {
+  shortcutButton.innerText = "...";
+  shortcutButton.classList.add("set-shortcut-button-pressed");
+  window.api.send("set-input-field-shortcut");
+};
+
+swapButton.onclick = (e) => {
+  const from = fromLanguage.value;
+  fromLanguage.value = toLanguage.value;
+  toLanguage.value = from;
+  setParams();
+};
 
 clipboardCheckbox.onchange = (e) => {
   window.api.send("enable-clipboard", e.target.checked);
@@ -81,14 +115,6 @@ saveButton.onclick = () => {
 
 translateButton.onclick = () => {
   window.api.send("text-to-translate", inputText.value);
-};
-
-const setParams = () => {
-  window.api.send("set-params", {
-    engine: selectEngine.value,
-    from: fromLanguage.value,
-    to: toLanguage.value,
-  });
 };
 
 selectEngine.onchange = setParams;

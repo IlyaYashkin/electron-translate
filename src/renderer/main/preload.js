@@ -3,13 +3,13 @@ const { contextBridge, ipcRenderer } = require("electron");
 contextBridge.exposeInMainWorld("api", {
   send: (channel, data) => {
     let whitelist = [
-      "get-params",
       "set-params",
       "save-params",
       "text-to-translate",
       "enable-clipboard",
       "enable-notifications",
       "enable-proxy",
+      "set-input-field-shortcut",
     ];
     if (whitelist.includes(channel)) {
       ipcRenderer.send(channel, data);
@@ -17,7 +17,11 @@ contextBridge.exposeInMainWorld("api", {
   },
 
   receive: (channel, callback) => {
-    let whitelist = ["translated-text", "text-is-translating"];
+    let whitelist = [
+      "translated-text",
+      "text-is-translating",
+      "setting-input-field-shortcut",
+    ];
     if (whitelist.includes(channel)) {
       ipcRenderer.on(channel, (_event, ...args) => {
         callback(...args);
