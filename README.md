@@ -4,9 +4,7 @@
 
 ## Запуск проекта
 
-Сначала необходимо скомпилировать CLI из библиотеки translators
-
-Create python CLI translator .exe file
+Сборка CLI из библиотеки translators
 
 ```
 pyinstaller --onefile --distpath ./ .\translators\translator.py
