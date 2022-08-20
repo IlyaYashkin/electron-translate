@@ -1,4 +1,4 @@
-### Electron translate
+# Electron translate
 
 Create python CLI translator .exe file
 
