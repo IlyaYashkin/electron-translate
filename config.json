@@ -1,7 +1,7 @@
 {
-  "translationEngine": "baidu",
-  "fromLanguage": "en",
-  "toLanguage": "ru",
+  "translationEngine": "bing",
+  "fromLanguage": "ru",
+  "toLanguage": "en",
   "isWriteToClipboardEnabled": true,
   "isNotificationsEnabled": true,
   "isProxyEnabled": false,

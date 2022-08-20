@@ -59,22 +59,25 @@ const isNotificationsSupported = Notification.isSupported();
 
 uIOhook.on("keydown", (e) => {
   if (setInputFieldShortcut) {
-    switch (e.keycode) {
-      case UiohookKey.Ctrl:
-      case UiohookKey.Alt:
-      case UiohookKey.Shift:
-      case UiohookKey.Meta:
-      case UiohookKey.CtrlRight:
-      case UiohookKey.AltRight:
-      case UiohookKey.ShiftRight:
-      case UiohookKey.MetaRight:
-      case UiohookKey.Backspace:
-      case UiohookKey.Enter:
-      case 3653:
-      case 70:
-      case 3639:
-      case 3677:
-        return;
+    const keycodes = [
+      UiohookKey.Ctrl,
+      UiohookKey.Alt,
+      UiohookKey.Shift,
+      UiohookKey.Meta,
+      UiohookKey.CtrlRight,
+      UiohookKey.AltRight,
+      UiohookKey.ShiftRight,
+      UiohookKey.MetaRight,
+      UiohookKey.Backspace,
+      UiohookKey.Enter,
+      3653,
+      70,
+      3639,
+      3677,
+    ];
+
+    if (keycodes.includes(e.keycode)) {
+      return;
     }
 
     const key = Object.keys(UiohookKey).filter((key) => {
@@ -212,6 +215,7 @@ function createWindow() {
     height: 600,
     minWidth: 640,
     minHeight: 600,
+    icon: path.join("resources", "icon.png"),
     webPreferences: {
       preload: path.join(__dirname, "/renderer/main/preload.js"),
       contextIsolation: true,
@@ -245,7 +249,7 @@ function createWindow() {
     mainWindow.hide();
   });
 
-  tray = new Tray("icon.png");
+  tray = new Tray(path.join("resources", "icon_tray.png"));
   tray.setToolTip("Electron translate");
   tray.on("double-click", () => {
     mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
