@@ -8,6 +8,7 @@ contextBridge.exposeInMainWorld("api", {
       "text-to-translate",
       "enable-clipboard",
       "enable-notifications",
+      "enable-autolaunch",
       "enable-proxy",
       "set-input-field-shortcut",
     ];

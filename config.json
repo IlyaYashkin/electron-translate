@@ -1,9 +1,10 @@
 {
   "translationEngine": "bing",
-  "fromLanguage": "ru",
-  "toLanguage": "en",
+  "fromLanguage": "en",
+  "toLanguage": "ru",
   "isWriteToClipboardEnabled": true,
   "isNotificationsEnabled": true,
+  "isAutolaunchEnabled": false,
   "isProxyEnabled": false,
   "proxies": {
     "http": "http://localhost:1080",
@@ -11,7 +12,7 @@
   },
   "inputFieldShortcut": {
     "ctrl": false,
-    "shift": false,
+    "shift": true,
     "alt": true,
     "key": "X"
   }

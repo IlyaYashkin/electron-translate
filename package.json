@@ -5,16 +5,21 @@
   "main": "src/index.js",
   "scripts": {
     "start": "electron .",
-    "dev": "nodemon --watch . --exec \"electron .\""
+    "dev": "nodemon --watch . --exec \"electron .\"",
+    "distWin": "electron-builder --win"
   },
   "author": "IlyaYashkin",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "electron": "^19.0.9",
     "robotjs": "^0.6.0",
     "uiohook-napi": "^1.2.0"
   },
+  "build": {
+    "appId": "com.electron.translate"
+  },
   "devDependencies": {
+    "electron": "^20.1.1",
+    "electron-builder": "^23.3.3",
     "electron-rebuild": "^3.2.9"
   }
 }

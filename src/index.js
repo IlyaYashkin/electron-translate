@@ -9,7 +9,7 @@ const {
   Menu,
   Notification,
 } = require("electron");
-const robot = require("robotjs");
+// const robot = require("robotjs");
 const { uIOhook, UiohookKey } = require("uiohook-napi");
 const translator = require("./translator.js");
 
@@ -22,6 +22,7 @@ let fromLanguage = "auto";
 let toLanguage = "en";
 let isWriteToClipboardEnabled = false;
 let isNotificationsEnabled = false;
+let isAutolaunchEnabled = false;
 let isProxyEnabled = false;
 let proxies = {
   http: "",
@@ -42,6 +43,7 @@ let inputFieldShortcut = {
     toLanguage = params.toLanguage;
     isWriteToClipboardEnabled = params.isWriteToClipboardEnabled;
     isNotificationsEnabled = params.isNotificationsEnabled;
+    isAutolaunchEnabled = params.isAutolaunchEnabled;
     isProxyEnabled = params.isProxyEnabled;
     proxies = params.proxies;
     inputFieldShortcut = params.inputFieldShortcut;
@@ -165,6 +167,7 @@ ipcMain.on("save-params", () => {
         toLanguage,
         isWriteToClipboardEnabled,
         isNotificationsEnabled,
+        isAutolaunchEnabled,
         isProxyEnabled,
         proxies,
         inputFieldShortcut,
@@ -182,6 +185,10 @@ ipcMain.on("enable-clipboard", (_evt, bool) => {
 });
 ipcMain.on("enable-notifications", (_evt, bool) => {
   isNotificationsEnabled = bool;
+});
+ipcMain.on("enable-autolaunch", (_evt, bool) => {
+  isAutolaunchEnabled = bool;
+  launchOnStartup(bool);
 });
 ipcMain.on("enable-proxy", (_evt, proxy) => {
   isProxyEnabled = proxy.isEnabled;
@@ -207,14 +214,24 @@ ipcMain.on("text-to-translate", async (_evt, string) => {
 uIOhook.start();
 translator.start();
 
-app.on("ready", createWindow);
+app.on("ready", () => {
+  launchOnStartup(isAutolaunchEnabled);
+  createWindow();
+});
+
+function launchOnStartup(isAutolaunchEnabled) {
+  app.setLoginItemSettings({
+    openAtLogin: isAutolaunchEnabled,
+    openAsHidden: true,
+  });
+}
 
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
-    height: 600,
+    height: 750,
     minWidth: 640,
-    minHeight: 600,
+    minHeight: 750,
     icon: path.join("resources", "icon.png"),
     webPreferences: {
       preload: path.join(__dirname, "/renderer/main/preload.js"),
@@ -238,6 +255,7 @@ function createWindow() {
       toLanguage,
       isWriteToClipboardEnabled,
       isNotificationsEnabled,
+      isAutolaunchEnabled,
       isProxyEnabled,
       proxies,
       inputFieldShortcut,
@@ -294,7 +312,7 @@ function openInputField() {
   inputFieldWindow.loadFile(
     path.join(__dirname, "/renderer/input_field/index.html")
   );
-  const mousePosition = robot.getMousePos();
+  // const mousePosition = robot.getMousePos();
   inputFieldWindow.setPosition(
     mousePosition.x - width / 2,
     mousePosition.y - height / 2
@@ -306,6 +324,6 @@ function openInputField() {
   });
   inputFieldWindow.on("ready-to-show", () => {
     inputFieldWindow.show();
-    robot.mouseClick();
+    // robot.mouseClick();
   });
 }

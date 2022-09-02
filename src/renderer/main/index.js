@@ -6,6 +6,7 @@ const outputText = document.getElementById("output-text");
 const translateButton = document.getElementById("translate-button");
 const shortcutButton = document.getElementById("set-shortcut-button");
 const clipboardCheckbox = document.getElementById("clipboard-checkbox");
+const autolaunchCheckbox = document.getElementById("autolaunch-checkbox");
 const notificationsCheckbox = document.getElementById("notifications-checkbox");
 const proxyCheckbox = document.getElementById("proxy-checkbox");
 const proxyField = document.getElementById("proxy-field");
@@ -27,6 +28,7 @@ window.api.receiveOnce("params", (params) => {
   toLanguage.value = params.toLanguage;
   clipboardCheckbox.checked = params.isWriteToClipboardEnabled;
   notificationsCheckbox.checked = params.isNotificationsEnabled;
+  autolaunchCheckbox.checked = params.isAutolaunchEnabled;
   proxyCheckbox.checked = params.isProxyEnabled;
   proxyField.value = params.proxies.http;
   shortcutButton.innerText = `${
@@ -82,6 +84,10 @@ clipboardCheckbox.onchange = (e) => {
 
 notificationsCheckbox.onchange = (e) => {
   window.api.send("enable-notifications", e.target.checked);
+};
+
+autolaunchCheckbox.onchange = (e) => {
+  window.api.send("enable-autolaunch", e.target.checked);
 };
 
 proxyCheckbox.onchange = () => {
